@@ -30,29 +30,24 @@ var validate = module.exports = function (schema, args) {
 }
 
 function missingRequiredArg(num) {
-  var e = new Error("Missing required argument #"+(num+1))
-  e.code = "EMISSINGARG"
-  Error.captureStackTrace(e, validate)
-  return e
+  return newException("EMISSINGARG", "Missing required argument #"+(num+1))
 }
 
 function unknownType(num, type) {
-  var e = new Error("Unknown type "+type+" in argument #"+(num+1))
-  e.code = "EUNKNOWNTYPE"
-  Error.captureStackTrace(e, validate)
-  return e
+  return newException("EUNKNOWNTYPE", "Unknown type "+type+" in argument #"+(num+1))
 }
 
 function invalidType(num, type, value) {
-  var e = new Error("Argument #"+(num+1)+": Expected "+type+" but got "+typeof value)
-  e.code = "EINVALIDTYPE"
-  Error.captureStackTrace(e, validate)
-  return e
+  return newException("EINVALIDTYPE", "Argument #"+(num+1)+": Expected "+type+" but got "+typeof value)
 }
 
 function tooManyArgs(expected, got) {
-  var e = new Error("Too many arguments, expected "+expected+" and got "+got)
-  e.code = "ETOOMANYARGS"
+  return newException("ETOOMANYARGS", "Too many arguments, expected "+expected+" and got "+got)
+}
+
+function newException(code, msg) {
+  var e = new Error(msg)
+  e.code = code
   Error.captureStackTrace(e, validate)
   return e
 }
