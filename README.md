@@ -14,7 +14,7 @@ function myfunc(a, b, c) {
 myfunc('test', 23, function () {}) // ok
 myfunc(123, 23, function () {}) // type error
 myfunc('test', 23) // missing arg error
-myfunc('test, 23, function () {}, true) // too many args error
+myfunc('test', 23, function () {}, true) // too many args error
 
 ```
 
