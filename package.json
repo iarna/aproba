@@ -1,6 +1,6 @@
 {
   "name": "aproba",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A rediculously light-weight argument validator",
   "main": "index.js",
   "directories": {
