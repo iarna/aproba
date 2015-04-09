@@ -23,13 +23,13 @@ Valid types are:
 type | description
 ---- | -----------
 *    | matches any type
-A    | typeof == array OR an arguments object
+A    | instanceof Array OR an arguments object
 S    | typeof == string
 N    | typeof == number
 F    | typeof == function
-O    | typeof == object and not type A
+O    | typeof == object and not type A and not type E
 B    | typeof == boolean
-E    | typeof == error OR null
+E    | instanceof Error OR null
 
 Validation failures throw one of three exception types, distinguished by a
 `code` property of `EMISSINGARG`, `EINVALIDTYPE` or `ETOOMANYARGS`.
