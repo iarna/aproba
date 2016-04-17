@@ -2,7 +2,7 @@
 
 var types = {
   "*": ["any", function () { return true }],
-  A: ["array", function (thingy) { return thingy instanceof Array || (typeof thingy === "object" && thingy.hasOwnProperty("callee")) }],
+  A: ["array", function (thingy) { return (Array.isArray && Array.isArray(thingy)) || thingy instanceof Array || (typeof thingy === "object" && thingy.hasOwnProperty("callee")) }],
   S: ["string", function (thingy) { return typeof thingy === "string" }],
   N: ["number", function (thingy) { return typeof thingy === "number" }],
   F: ["function", function (thingy) { return typeof thingy === "function" }],
