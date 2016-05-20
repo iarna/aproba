@@ -34,7 +34,11 @@ E    | instanceof Error OR null
 Validation failures throw one of three exception types, distinguished by a
 `code` property of `EMISSINGARG`, `EINVALIDTYPE` or `ETOOMANYARGS`.
 
-If an error argument is found and is not null then the remaining arguments will not be validated.
+If you pass in an invalid type then it will throw with a code of
+`EUNKNOWNTYPE`.
+
+If an error argument is found and is not null then the remaining arguments
+will not be validated.
 
 ### Why this exists
 
