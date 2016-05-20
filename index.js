@@ -6,7 +6,7 @@ function isArguments (thingy) {
 
 var types = {
   '*': ['any', function () { return true }],
-  A: ['array', function (thingy) { return (Array.isArray && Array.isArray(thingy)) || isArguments(thingy) }],
+  A: ['array', function (thingy) { return Array.isArray(thingy) || isArguments(thingy) }],
   S: ['string', function (thingy) { return typeof thingy === 'string' }],
   N: ['number', function (thingy) { return typeof thingy === 'number' }],
   F: ['function', function (thingy) { return typeof thingy === 'function' }],
