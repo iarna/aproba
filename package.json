@@ -8,10 +8,11 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "standard": "^7.1.0",
     "tap": "^5.7.1"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "standard && tap test/*.js"
   },
   "repository": {
     "type": "git",
