@@ -37,8 +37,13 @@ function unknownType (num, type) {
   return newException('EUNKNOWNTYPE', 'Unknown type ' + type + ' in argument #' + (num + 1))
 }
 
-function invalidType (num, type, value) {
-  return newException('EINVALIDTYPE', 'Argument #' + (num + 1) + ': Expected ' + type + ' but got ' + typeof value)
+function invalidType (num, expectedType, value) {
+  var valueType
+  Object.keys(types).forEach(function (typeCode) {
+    if (types[typeCode][1](value)) valueType = types[typeCode][0]
+  })
+  return newException('EINVALIDTYPE', 'Argument #' + (num + 1) + ': Expected ' +
+    expectedType + ' but got ' + valueType)
 }
 
 function tooManyArgs (expected, got) {

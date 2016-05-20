@@ -23,7 +23,7 @@ function notThrown (t, msg, todo) {
 }
 
 test('general', function (t) {
-  t.plan(69)
+  t.plan(70)
   var values = {
     'A': [],
     'S': 'test',
@@ -78,4 +78,10 @@ test('general', function (t) {
   thrown(t, 'EMISSINGARG', 'E w/o error works as usual', function () {
     validate('ESN', [null, 'foo'])
   })
+  try {
+    validate('O', [[]])
+    t.fail('object != array')
+  } catch (ex) {
+    t.match(ex.message, /Expected object but got array/, 'When reporting non-objects, uses aproba types')
+  }
 })
