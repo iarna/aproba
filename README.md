@@ -1,7 +1,7 @@
 aproba
 ======
 
-A rediculously light-weight function argument validator
+A ridiculously light-weight function argument validator
 
 ```
 var validate = require("aproba")
