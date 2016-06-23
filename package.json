@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "standard": "^7.1.0",
-    "tap": "^5.7.1"
+    "tap": "^5.7.3"
   },
   "scripts": {
     "test": "standard && tap test/*.js"
