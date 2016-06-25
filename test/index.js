@@ -8,7 +8,10 @@ function thrown (t, code, msg, todo) {
     todo()
     t.fail(msg)
   } catch (e) {
-    t.is(e.code, code, msg + e.message)
+    t.comment(e.message)
+    if (!t.is(e.code && e.code, code, msg)) {
+      t.comment(e.stack)
+    }
   }
 }
 
@@ -18,12 +21,40 @@ function notThrown (t, msg, todo) {
     todo()
     t.pass(msg)
   } catch (e) {
-    t.fail(msg + '\n' + e.stack)
+    t.comment(e.stack)
+    t.fail(msg)
   }
 }
 
-test('general', function (t) {
-  t.plan(70)
+test("aproba arg validation", function (t) {
+  thrown(t, 'EMISSINGARG', 'missing first arg is error', function () {
+    validate(null, [])
+  })
+  thrown(t, 'EMISSINGARG', 'missing second arg is error', function () {
+    validate('A', null)
+  })
+  thrown(t, 'EUNKNOWNTYPE', 'invalid type string', function () {
+    validate('¶', [])
+  })
+  thrown(t, 'ETOOMANYERRORTYPES', 'more than one error arg is error', function () {
+    validate('OEOEO', [])
+  })
+  thrown(t, 'EWRONGARGCOUNT', 'too many arguments', function () {
+    validate('O', {}, 23)
+  })
+  thrown(t, 'EWRONGARGCOUNT', 'too few arguments', function () {
+    validate('O')
+  })
+  thrown(t, 'EINVALIDTYPE', 'first arg not string', function () {
+    validate([], [])
+  })
+  thrown(t, 'EINVALIDTYPE', 'second arg not arrayish', function () {
+    validate('O', 23)
+  })
+  t.done()
+})
+
+test('user arg validation', function (t) {
   var values = {
     'A': [],
     'S': 'test',
@@ -50,7 +81,7 @@ test('general', function (t) {
         validate(type, [null])
       })
     } else {
-      thrown(t, 'EMISSINGARG', 'null not ok for ' + type, function () {
+      thrown(t, 'EINVALIDTYPE', 'null throws for ' + type, function () {
         validate(type, [null])
       })
     }
@@ -60,10 +91,10 @@ test('general', function (t) {
       validate('*', [values[contraType]])
     })
   })
-  thrown(t, 'EMISSINGARG', 'not enough args', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'not enough args', function () {
     validate('SNF', ['abc', 123])
   })
-  thrown(t, 'ETOOMANYARGS', 'too many args', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'too many args', function () {
     validate('SNF', ['abc', 123, function () {}, true])
   })
   notThrown(t, 'E matches null', function () {
@@ -73,9 +104,15 @@ test('general', function (t) {
     validate('E', [undefined])
   })
   notThrown(t, 'E w/ error requires nothing else', function () {
+    validate('ESN', [new Error()])
+  })
+  notThrown(t, 'E w/ error ok with all args', function () {
+    validate('ESN', [new Error(), 'foo', 23])
+  })
+  thrown(t, 'EWRONGARGCOUNT', 'E w/ error NOT ok with partial args', function () {
     validate('ESN', [new Error(), 'foo'])
   })
-  thrown(t, 'EMISSINGARG', 'E w/o error works as usual', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'E w/o error works as usual', function () {
     validate('ESN', [null, 'foo'])
   })
   try {
@@ -84,4 +121,5 @@ test('general', function (t) {
   } catch (ex) {
     t.match(ex.message, /Expected object but got array/, 'When reporting non-objects, uses aproba types')
   }
+  t.done()
 })
