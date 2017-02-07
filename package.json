@@ -9,13 +9,13 @@
   "dependencies": {},
   "devDependencies": {
     "standard": "^7.1.2",
-    "tap": "^5.7.3"
+    "tap": "^10.0.2"
   },
   "files": [
     "index.js"
   ],
   "scripts": {
-    "test": "standard && tap test/*.js"
+    "test": "standard && tap -j3 test/*.js"
   },
   "repository": {
     "type": "git",
