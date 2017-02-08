@@ -75,6 +75,9 @@ test('user arg validation', function (t) {
   notThrown(t, 'E matches undefined', function () {
     validate('E', [undefined])
   })
+  notThrown(t, 'E matches empty', function () {
+    validate('E', [])
+  })
   notThrown(t, 'E w/ error requires nothing else', function () {
     validate('ESN', [new Error()])
   })
