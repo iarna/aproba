@@ -29,7 +29,7 @@ var validate = module.exports = function (rawSchemas, args) {
   if (!types.A.check(args)) throw invalidType(1, ['array'], args)
   var schemas = rawSchemas.split('|')
   var arity = {}
-  
+
   schemas.forEach(function (schema) {
     for (var ii = 0; ii < schema.length; ++ii) {
       var type = schema[ii]
