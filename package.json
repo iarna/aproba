@@ -15,7 +15,8 @@
     "index.js"
   ],
   "scripts": {
-    "test": "standard && tap -j3 test/*.js"
+    "pretest": "standard",
+    "test": "tap --100 -J test/*.js"
   },
   "repository": {
     "type": "git",
