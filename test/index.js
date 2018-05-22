@@ -1,6 +1,6 @@
 'use strict'
-var test = require('tap').test
-var validate = require('../index.js')
+const test = require('tap').test
+const validate = require('../index.js')
 
 function thrown (t, code, msg, todo) {
   validate('OSSF', arguments)
@@ -26,68 +26,68 @@ function notThrown (t, msg, todo) {
   }
 }
 
-test('user arg validation', function (t) {
-  var values = {
+test('user arg validation', t => {
+  const values = {
     'A': [],
     'S': 'test',
     'N': 123,
-    'F': function () {},
+    'F': () => {},
     'O': {},
     'B': false,
     'E': new Error()
   }
-  Object.keys(values).forEach(function (type) {
-    Object.keys(values).forEach(function (contraType) {
+  Object.keys(values).forEach(type => {
+    Object.keys(values).forEach(contraType => {
       if (type === contraType) {
-        notThrown(t, type + ' matches ' + contraType, function () {
+        notThrown(t, type + ' matches ' + contraType, () => {
           validate(type, [values[contraType]])
         })
       } else {
-        thrown(t, 'EINVALIDTYPE', type + ' does not match ' + contraType, function () {
+        thrown(t, 'EINVALIDTYPE', type + ' does not match ' + contraType, () => {
           validate(type, [values[contraType]])
         })
       }
     })
     if (type === 'E') {
-      notThrown(t, 'null is ok for E', function () {
+      notThrown(t, 'null is ok for E', () => {
         validate(type, [null])
       })
     } else {
-      thrown(t, 'EINVALIDTYPE', 'null throws for ' + type, function () {
+      thrown(t, 'EINVALIDTYPE', 'null throws for ' + type, () => {
         validate(type, [null])
       })
     }
   })
-  Object.keys(values).forEach(function (contraType) {
-    notThrown(t, '* matches ' + contraType, function () {
+  Object.keys(values).forEach(contraType => {
+    notThrown(t, '* matches ' + contraType, () => {
       validate('*', [values[contraType]])
     })
   })
-  thrown(t, 'EWRONGARGCOUNT', 'not enough args', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'not enough args', () => {
     validate('SNF', ['abc', 123])
   })
-  thrown(t, 'EWRONGARGCOUNT', 'too many args', function () {
-    validate('SNF', ['abc', 123, function () {}, true])
+  thrown(t, 'EWRONGARGCOUNT', 'too many args', () => {
+    validate('SNF', ['abc', 123, () => {}, true])
   })
-  notThrown(t, 'E matches null', function () {
+  notThrown(t, 'E matches null', () => {
     validate('E', [null])
   })
-  notThrown(t, 'E matches undefined', function () {
+  notThrown(t, 'E matches undefined', () => {
     validate('E', [undefined])
   })
-  notThrown(t, 'E matches empty', function () {
+  notThrown(t, 'E matches empty', () => {
     validate('E', [])
   })
-  notThrown(t, 'E w/ error requires nothing else', function () {
+  notThrown(t, 'E w/ error requires nothing else', () => {
     validate('ESN', [new Error()])
   })
-  notThrown(t, 'E w/ error ok with all args', function () {
+  notThrown(t, 'E w/ error ok with all args', () => {
     validate('ESN', [new Error(), 'foo', 23])
   })
-  thrown(t, 'EWRONGARGCOUNT', 'E w/ error NOT ok with partial args', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'E w/ error NOT ok with partial args', () => {
     validate('ESN', [new Error(), 'foo'])
   })
-  thrown(t, 'EWRONGARGCOUNT', 'E w/o error works as usual', function () {
+  thrown(t, 'EWRONGARGCOUNT', 'E w/o error works as usual', () => {
     validate('ESN', [null, 'foo'])
   })
   try {
