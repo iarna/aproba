@@ -3,7 +3,7 @@ aproba
 
 A ridiculously light-weight function argument validator
 
-```
+```js
 var validate = require("aproba")
 
 function myfunc(a, b, c) {
@@ -50,7 +50,7 @@ If any signature matches the arguments then they'll be considered valid.
 So for example, say you wanted to write a signature for
 `fs.createWriteStream`.  The docs for it describe it thusly:
 
-```
+```js
 fs.createWriteStream(path[, options])
 ```
 
@@ -59,7 +59,7 @@ just a string.
 
 Now, if you read the full `fs` docs, you'll see that actually path can ALSO
 be a buffer.  And options can be a string, that is:
-```
+```ts
 path <String> | <Buffer>
 options <String> | <Object>
 ```
