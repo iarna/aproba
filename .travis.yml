@@ -7,10 +7,8 @@ node_js:
   - "10"
   - "8"
   - "6"
-  - "4"
 matrix:  
  allow_failures:
     node_js:
-       - "4"
-       - "6"
+           - "6"
   
